@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,88 +45,90 @@ public class UserChat extends AppCompatActivity {
     SharedPreferences pref, pref1;
     SharedPreferences.Editor editor;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatinbox);
         //Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        editText = (EditText) findViewById(R.id.etText);
-        button = (Button) findViewById(R.id.btSent);
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-        database = database.getInstance();
-        UserId = user.getUid().toString();
-        //UserId = "a7rsTgsHLGRvCJbEDXLPno7u8XJ3";
-        final Intent intent = getIntent();
-        Intent intent2 = getIntent();
-        setTitle(intent2.getStringExtra("UserName"));
-        mRecyclerView = (RecyclerView)findViewById(R.id.rvChat);
-        mChats = new ArrayList<>();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        databaseReference = database.getReference("Users").child(intent.getStringExtra("CurrentUser")).child("Messages").child(intent.getStringExtra("ChatUser"));
-        databaseReference2 = database.getReference("Users").child(intent.getStringExtra("ChatUser")).child("Messages").child(intent.getStringExtra("CurrentUser"));
-        pref = getApplicationContext().getSharedPreferences("com.plusOneSoftwares.plusOneSoftwares.chatme", Context.MODE_PRIVATE);
-        editor  = pref.edit();
 
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            editText = (EditText) findViewById(R.id.etText);
+            button = (Button) findViewById(R.id.btSent);
+            auth = FirebaseAuth.getInstance();
+            user = auth.getCurrentUser();
+            database = database.getInstance();
+            UserId = user.getUid().toString();
+            //UserId = "a7rsTgsHLGRvCJbEDXLPno7u8XJ3";
+            final Intent intent = getIntent();
+            Intent intent2 = getIntent();
+            setTitle(intent2.getStringExtra("UserName"));
+            mRecyclerView = (RecyclerView) findViewById(R.id.rvChat);
+            mChats = new ArrayList<>();
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            databaseReference = database.getReference("Users").child(intent.getStringExtra("CurrentUser")).child("Messages").child(intent.getStringExtra("ChatUser"));
+            databaseReference2 = database.getReference("Users").child(intent.getStringExtra("ChatUser")).child("Messages").child(intent.getStringExtra("CurrentUser"));
+            pref = getApplicationContext().getSharedPreferences("com.plusOneSoftwares.plusOneSoftwares.chatme", Context.MODE_PRIVATE);
+            editor = pref.edit();
 
-        mAdapter = new ChatAdapter(mChats,UserId);
-        mRecyclerView.setAdapter(mAdapter);
+            mAdapter = new ChatAdapter(mChats, UserId);
+            mRecyclerView.setAdapter(mAdapter);
 
-        button.setOnClickListener(new View.OnClickListener() {
+            button.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View arg0) {
-                sendMessages();
-            }
-        });
+                @Override
+                public void onClick(View arg0) {
+                    sendMessages();
+                }
+            });
 
+            databaseReference.child("Inbox").addChildEventListener(new ChildEventListener() {
 
-        databaseReference.child("Inbox").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                    try{
-                        model = dataSnapshot.getValue(Chat.class);
-                        mChats.add(model);
-                        mRecyclerView.scrollToPosition(mChats.size() -1);
-                        mAdapter.notifyItemInserted(mChats.size() -1);
-                        editor.putString(model.getMessageBy(),model.getTime());
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
+                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                        try {
+                            model = dataSnapshot.getValue(Chat.class);
+                            mChats.add(model);
+                            mRecyclerView.scrollToPosition(mChats.size() - 1);
+                            mAdapter.notifyItemInserted(mChats.size() - 1);
+                            editor.putString(model.getMessageBy(), model.getTime());
+                        } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
+                        }
                     }
+
+                    editor.commit();
                 }
 
-                editor.commit();
-            }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
 
-            }
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
 
-            }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+                }
+            });
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(getApplicationContext(), "UserChat: "+e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     public void sendMessages() {

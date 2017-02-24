@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,59 +36,67 @@ public class ChatInbox extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatinbox);
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-        fdatabase = fdatabase.getInstance();
-        ref =fdatabase.getReference("Users").child("a7rsTgsHLGRvCJbEDXLPno7u8XJ3").child("Messages");
-        metText = (EditText)findViewById(R.id.etText);
-        mbtSent = (Button)findViewById(R.id.btSent);
-        mRecyclerView = (RecyclerView)findViewById(R.id.rvChat);
-        mChats = new ArrayList<>();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Intent intent = getIntent();
-        String idU = intent.getStringExtra("UID");
-        mAdapter = new ChatAdapter(mChats,idU);
-        mRecyclerView.setAdapter(mAdapter);
 
-        ref.child("72K4mHCv4ieeNLQFOqx4TsqjJOJ3").child("Inbox").addChildEventListener(new ChildEventListener() {
+        try {
+            auth = FirebaseAuth.getInstance();
+            user = auth.getCurrentUser();
+            fdatabase = fdatabase.getInstance();
+            ref = fdatabase.getReference("Users").child("a7rsTgsHLGRvCJbEDXLPno7u8XJ3").child("Messages");
+            metText = (EditText) findViewById(R.id.etText);
+            mbtSent = (Button) findViewById(R.id.btSent);
+            mRecyclerView = (RecyclerView) findViewById(R.id.rvChat);
+            mChats = new ArrayList<>();
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            Intent intent = getIntent();
+            String idU = intent.getStringExtra("UID");
+            mAdapter = new ChatAdapter(mChats, idU);
+            mRecyclerView.setAdapter(mAdapter);
 
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            ref.child("72K4mHCv4ieeNLQFOqx4TsqjJOJ3").child("Inbox").addChildEventListener(new ChildEventListener() {
 
-                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                    try{
-                        Chat model = dataSnapshot.getValue(Chat.class);
-                        mChats.add(model);
-                        mRecyclerView.scrollToPosition(mChats.size() -1);
-                        mAdapter.notifyItemInserted(mChats.size() -1);
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
+                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                        try {
+                            Chat model = dataSnapshot.getValue(Chat.class);
+                            mChats.add(model);
+                            mRecyclerView.scrollToPosition(mChats.size() - 1);
+                            mAdapter.notifyItemInserted(mChats.size() - 1);
+
+                        } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
 
-            }
+                }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-            }
+                }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-            }
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            Toast.makeText(getApplicationContext(), "ChatInbox: "+ex.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
 
     }
 }

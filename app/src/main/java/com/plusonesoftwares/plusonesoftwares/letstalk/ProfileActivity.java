@@ -114,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG)
+                Toast.makeText(getApplicationContext(), "ProfileActivity: Something went wrong", Toast.LENGTH_LONG)
                         .show();
             }
         });

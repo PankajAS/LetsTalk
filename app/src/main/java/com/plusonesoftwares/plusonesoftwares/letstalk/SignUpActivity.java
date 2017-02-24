@@ -88,7 +88,5 @@ public class SignUpActivity extends AppCompatActivity {
         progressBar = (ProgressBar)findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.GONE);
         utils = new Utils();
-
-
     }
 }

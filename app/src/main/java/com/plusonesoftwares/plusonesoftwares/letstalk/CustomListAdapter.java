@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -59,6 +60,8 @@ public class CustomListAdapter extends ArrayAdapter<String> {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(getContext(), "CustomListAdapter: "+e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
         }
         return rowView;
     }

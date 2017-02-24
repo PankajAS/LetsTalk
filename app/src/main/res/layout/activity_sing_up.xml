@@ -37,7 +37,7 @@
                 android:id="@+id/phone"
                 android:hint="Phone"
                 android:background="@drawable/edittext_bg"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="15dp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 android:id="@+id/emailS"
                 android:hint="Email"
                 android:background="@drawable/edittext_bg"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="15dp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                 android:id="@+id/passwords"
                 android:hint="Password"
                 android:background="@drawable/edittext_bg"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="15dp" />
 
             <Button
                 android:text="Sign Up"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button6"
                 android:onClick="signUp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/colorWhite"
                 android:background="@color/colorPrimaryDark" />
 

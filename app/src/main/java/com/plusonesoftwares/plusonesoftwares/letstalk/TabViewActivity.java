@@ -40,29 +40,36 @@ public class TabViewActivity extends AppCompatActivity implements TabLayout.OnTa
     }
 
     private void initializeTabView() {
-        String[] tabBarTitles = new String[]{
-                getString(R.string.Calls),
-                getString(R.string.Chats),
-                getString(R.string.Contacts)
-        };
+        try {
+            String[] tabBarTitles = new String[]{
+                    getString(R.string.Calls),
+                    getString(R.string.Chats),
+                    getString(R.string.Contacts)
+            };
 
-        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Calls"));
-        tabLayout.addTab(tabLayout.newTab().setText("Chats"));
-        tabLayout.addTab(tabLayout.newTab().setText("Contacts"));
+            tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+            tabLayout.addTab(tabLayout.newTab().setText("Calls"));
+            tabLayout.addTab(tabLayout.newTab().setText("Chats"));
+            tabLayout.addTab(tabLayout.newTab().setText("Contacts"));
 
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        //tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ffffff"));
-        viewPager = (ViewPager)findViewById(R.id.pager);
-        Pager adapter = new Pager(getSupportFragmentManager(),tabLayout.getTabCount(),tabBarTitles);
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(1);//selecting the selected tab as CHAT TAB
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setOffscreenPageLimit(3);/* limit is a fixed integer (stop refreshing Fragments on tab change)*/
-        tabLayout.setOnTabSelectedListener(this);
-        Intent in = getIntent();
-        CURRENT_USER = in.getStringExtra("UID");
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+            //tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ffffff"));
+            viewPager = (ViewPager) findViewById(R.id.pager);
+            Pager adapter = new Pager(getSupportFragmentManager(), tabLayout.getTabCount(), tabBarTitles);
+            viewPager.setAdapter(adapter);
+            viewPager.setCurrentItem(1);//selecting the selected tab as CHAT TAB
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setOffscreenPageLimit(3);/* limit is a fixed integer (stop refreshing Fragments on tab change)*/
+            tabLayout.setOnTabSelectedListener(this);
+            Intent in = getIntent();
+            CURRENT_USER = in.getStringExtra("UID");
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(getApplicationContext(), "TabViewActivity: "+e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     private void requestContactReadPermission() {

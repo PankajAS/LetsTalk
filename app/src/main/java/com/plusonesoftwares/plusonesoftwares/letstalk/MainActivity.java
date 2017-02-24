@@ -37,33 +37,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void login(View view){
         utils.hideSoftKeyboard(this);//hide keyboard after pressing login button
 
-        String email = this.email.getText().toString();
-        String passwords = password.getText().toString();
+        try {
+            String email = this.email.getText().toString();
+            String passwords = password.getText().toString();
 
-        if(!email.isEmpty() && !passwords.isEmpty()) {
+            if (!email.isEmpty() && !passwords.isEmpty()) {
 
-            progressBar.setVisibility(View.VISIBLE);
-            auth.signInWithEmailAndPassword(email, passwords).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete( Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        String id = task.getResult().getUser().getUid().toString();
-                        Intent intent = new Intent(getApplicationContext(), TabViewActivity.class);
-                        if (id != null) {
-                            userId = id;
-                            intent.putExtra("UID", userId);
-                            startActivity(intent);
+                progressBar.setVisibility(View.VISIBLE);
+                auth.signInWithEmailAndPassword(email, passwords).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String id = task.getResult().getUser().getUid().toString();
+                            Intent intent = new Intent(getApplicationContext(), TabViewActivity.class);
+                            if (id != null) {
+                                userId = id;
+                                intent.putExtra("UID", userId);
+                                startActivity(intent);
+                            }
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(), task.getException().toString().substring(task.getException().toString().indexOf(" ")), Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        progressBar.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(), task.getException().toString().substring(task.getException().toString().indexOf(" ")), Toast.LENGTH_SHORT).show();
                     }
-                }
-            });
+                });
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.loginError, Toast.LENGTH_LONG).show();
+            }
         }
-        else
-        {
-            Toast.makeText(getApplicationContext(), R.string.loginError,Toast.LENGTH_LONG).show();
+        catch(Exception e){
+            Toast.makeText(getApplicationContext(), "MainActivity: "+e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
