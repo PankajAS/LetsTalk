@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="1">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/profile"
+        app:civ_border_width="2dp"
+        android:layout_margin="7dp"
+        app:civ_border_color="@color/colorGray"/>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="76dp">
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="161dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif"
+        android:textStyle="normal|bold"
+        android:textColor="@color/colorAccent"
+        android:padding="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        tools:ignore="HardcodedText,RtlHardcoded,UnusedAttribute" />
+
+        <TextView
+            android:text="10/02/2017"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time"
+            android:padding="5dp"
+            android:layout_weight="0.75"
+            android:layout_alignParentRight="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginTop="10dp"
+            tools:ignore="HardcodedText,ObsoleteLayoutParam"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_alignStart="@+id/textView1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/lastmsg"
+            tools:ignore="HardcodedText"
+            android:textColor="@color/colorBlack" />
+
+        <!--<com.nex3z.notificationbadge.NotificationBadge android:layout_height="28dp"
+            android:layout_width="28dp"
+            android:id="@+id/badge"
+            android:layout_below="@+id/time"
+            app:badgeBackground="@layout/badge"
+            app:maxTextLength="2"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp">
+        </com.nex3z.notificationbadge.NotificationBadge>-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_below="@+id/lastmsg"
+            android:layout_marginTop="12dp"
+            android:background="@color/common_google_signin_btn_text_dark_focused"
+            android:layout_marginRight="10dp"
+            android:layout_height="1px"
+            android:id="@+id/listViewDivider" />
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
