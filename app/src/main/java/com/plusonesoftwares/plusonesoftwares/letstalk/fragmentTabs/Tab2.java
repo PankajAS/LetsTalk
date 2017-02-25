@@ -80,6 +80,7 @@ public class Tab2 extends Fragment {
                         System.out.println(e.getMessage());
                     }
                 }
+                cursor.close();
                 return null;
             }
 
