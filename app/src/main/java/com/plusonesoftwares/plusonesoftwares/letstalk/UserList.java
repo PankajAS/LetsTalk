@@ -153,10 +153,15 @@ public class UserList extends Fragment {
 
                                     if (data1.child("Details").child("pic").getKey().equals("pic")) {
                                         String base64Image = (String) data1.child("Details").child("pic").getValue();
-                                        byte[] imageAsBytes = Base64.decode(base64Image.getBytes(), Base64.DEFAULT);
-                                        Bitmap image = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-                                        piclist.add(image);
-                                        pic = image;
+                                        if(base64Image != null && !base64Image.isEmpty()) {
+                                            byte[] imageAsBytes = Base64.decode(base64Image.getBytes(), Base64.DEFAULT);
+                                            Bitmap image = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+                                            //piclist.add(image);
+                                            pic = image;
+                                        }else{
+                                            pic = BitmapFactory.decodeResource(getContext().getResources(),
+                                                    R.drawable.profile);
+                                        }
 
 
                                     }
