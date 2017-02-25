@@ -157,6 +157,8 @@ public class UserList extends Fragment {
                                         Bitmap image = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
                                         piclist.add(image);
                                         pic = image;
+
+
                                     }
                                 }
 
