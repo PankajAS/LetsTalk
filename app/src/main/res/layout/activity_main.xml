@@ -76,15 +76,6 @@
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@color/colorWhite" />
 
-            <ProgressBar
-                style="?android:attr/progressBarStyle"
-                android:layout_width="match_parent"
-                android:layout_marginTop="43dp"
-                android:id="@+id/progressBar"
-                android:layout_height="60dp"
-                android:layout_below="@+id/button2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
         </RelativeLayout>
     </ScrollView>
 
